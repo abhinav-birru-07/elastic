@@ -7,7 +7,7 @@ import json
 app = Flask(__name__)
 CORS(app)
 
-es_index = 'test_12'
+es_index = 'olx_pp'
 
 
 @app.route('/')
@@ -25,7 +25,7 @@ def create_doc():
     res = es.create_doc(doc=json.loads(request.data.decode('utf-8')), es_index=es_index)
     print(res)
     print(type(res))
-    return res
+    return dict(res)
     return jsonify("response from api")
 
 
@@ -41,7 +41,7 @@ def get_docs_search():
         resp = es.get_docs_search(size=size, es_index=es_index, search_name=search_name, sort_field=sort_field, sort_order=sort_order)
     else:
         resp = es.get_docs_search(size=size, es_index=es_index, search_name=search_name)
-    return resp
+    return dict(resp)
 
 
 @app.route('/get_docs_click', methods=['GET', 'POST'])
@@ -55,7 +55,7 @@ def get_docs_click():
                                  sort_field=body['sortField'], sort_order=body['sortOrder'])
     else:
         resp = es.get_docs_click(es_index=es_index, category_selected=body['category'])
-    return resp
+    return dict(resp)
 
 
 @app.route('/fetch_doc_id', methods=['GET', 'POST'])
@@ -63,7 +63,7 @@ def fetch_doc_id():
     es = ElasticSearch()
     body = json.loads(request.data.decode('utf-8'))
     resp = es.get_doc_id(doc_id=body['doc_id'], es_index=es_index)
-    return resp
+    return dict(resp)
 
 
 @app.route('/get_my_prod', methods= ['GET', 'POST'])
@@ -71,7 +71,7 @@ def get_my_prod():
     es = ElasticSearch()
     body = json.loads(request.data.decode('utf-8'))
     resp = es.get_my_prod(useref=body['useRef'], es_index=es_index)
-    return resp
+    return dict(resp)
 
 
 @app.route('/del_my_prod', methods = ['POST'])
@@ -79,7 +79,7 @@ def del_my_prod():
     es = ElasticSearch()
     body = json.loads(request.data.decode('utf-8'))
     resp = es.del_my_prod(es_index=es_index, prod_id=body['prodId'])
-    return resp
+    return dict(resp)
 
 
 @app.route('/update_prod', methods=['POST'])
@@ -94,7 +94,7 @@ def update_prod():
     resp = es.update_prod(es_index=es_index, prod_id=prod_id, updated_data=body)
     print(resp)
     print(type(resp))
-    return resp
+    return dict(resp)
 
 
 if __name__ == '__main__':

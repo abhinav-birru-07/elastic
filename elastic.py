@@ -16,8 +16,10 @@ import json
 class ElasticSearch:
     def __init__(self):
         username = "elastic"
-        password = "D6CGGFRPUaP5p4etNf9lbbGV"
-        cloud_id = "olxiitg:dXMtY2VudHJhbDEuZ2NwLmNsb3VkLmVzLmlvOjQ0MyRiZmE2NGEzOTk5NTU0MGE0YWRkNzMyNzNjZmRmZGVlZiQ2MmIzMDVkY2IxZDg0OTU4ODU3YTMyMjFhYTVhZDM2MQ=="
+        # password = "D6CGGFRPUaP5p4etNf9lbbGV"
+        # cloud_id = "olxiitg:dXMtY2VudHJhbDEuZ2NwLmNsb3VkLmVzLmlvOjQ0MyRiZmE2NGEzOTk5NTU0MGE0YWRkNzMyNzNjZmRmZGVlZiQ2MmIzMDVkY2IxZDg0OTU4ODU3YTMyMjFhYTVhZDM2MQ=="
+        password = "kwxJrt44ETO7QQPf51qIkFSh"
+        cloud_id = "My_deployment:dXMtY2VudHJhbDEuZ2NwLmNsb3VkLmVzLmlvJDFlYzFjMTBkNTI5YzQxMzE5M2I0MjhkMzRkNTBkNWFlJGZlZjlmOWYyZGY2NDQyNGI4ZTkwNGZmMDU1MzA1OWI1"
 
         client = Elasticsearch(
             cloud_id=cloud_id,
@@ -46,7 +48,7 @@ class ElasticSearch:
         print(type(doc))
         res = self.client.index(index=es_index, body=doc)
         print("after created a doc in es")
-        return json.dumps(res)
+        return res
     
     def get_docs_search(self, es_index, search_name, size=1000, sort_field="timeAdded", sort_order="desc"):
         query = {
@@ -64,6 +66,7 @@ class ElasticSearch:
                 }
             ]
         }
+        print(query)
         resp = self.client.search(index=es_index, body=query)
         return resp
 
@@ -123,8 +126,8 @@ class ElasticSearch:
 
 
 es = ElasticSearch()
-es.create_index("test_12")
-
+# es.create_index("olx_pp")
+es.get_my_prod(useref="F4pStlKJQpg2Pz4R7S0vsg4HSAX2", es_index="olx_pp")
 
 '''
 sort features:
